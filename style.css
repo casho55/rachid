@@ -1,0 +1,110 @@
+/* General styling */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #87CEEB; /* Sky blue background */
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+#game-container {
+    position: relative;
+    width: 100%; /* Full width for mobile */
+    height: 100%; /* Full height for mobile */
+    max-width: 400px; /* Limit width for larger screens */
+    max-height: 600px; /* Limit height for larger screens */
+    background-color: #87CEEB;
+    overflow: hidden;
+    border: 2px solid #000;
+    margin: auto; /* Center the container */
+}
+
+/* Style for SALY */
+#bird {
+    position: absolute;
+    width: 60px; /* Adjust width to fit the text */
+    height: auto;
+    top: 50%; /* Start in the middle of the screen */
+    left: 50px;
+    background-color: red; /* Background color for SALY */
+    color: white; /* Text color */
+    font-size: 24px; /* Font size */
+    font-weight: bold; /* Bold text */
+    text-align: center; /* Center the text */
+    line-height: 40px; /* Vertically center the text */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add a shadow for depth */
+}
+
+.pipe {
+    position: absolute;
+    width: 50px;
+    background-color: green;
+}
+
+.pipe-top {
+    bottom: 0;
+}
+
+.pipe-bottom {
+    top: 0;
+}
+
+#score {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+/* Made with love by Rachid */
+#made-with-love {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Game over and win messages */
+.game-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-weight: bold;
+    color: red;
+    display: none;
+    animation: fadeInOut 3s ease-in-out; /* Fade-in and fade-out effect */
+}
+
+.win-message {
+    animation: scaleEffect 3s ease-in-out infinite; /* Scaling effect */
+}
+
+/* Animations */
+@keyframes fadeInOut {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleEffect {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
