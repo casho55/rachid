@@ -8,6 +8,7 @@ let birdY = gameContainer.offsetHeight / 2;
 let birdVelocity = 0;
 let gravity = 0.5;
 let isGameOver = false;
+let hasWon = false; // Track if the player has won
 let score = 0;
 
 // Pipes array
@@ -16,9 +17,31 @@ let pipeGap = 150;
 let pipeWidth = 50;
 let pipeVelocity = 2;
 
+// Restart game function
+function restartGame() {
+    if (hasWon) return; // Prevent replay if the player has won
+
+    birdY = gameContainer.offsetHeight / 2;
+    birdVelocity = 0;
+    score = 0;
+    scoreDisplay.textContent = `Score: ${score}`;
+    pipes.forEach((pipe) => {
+        gameContainer.removeChild(pipe.top);
+        gameContainer.removeChild(pipe.bottom);
+    });
+    pipes = [];
+    isGameOver = false;
+    hasWon = false; // Reset win status
+    winningScreen.classList.add("hidden"); // Hide winning screen
+    winningScreen.classList.remove("show");
+    gameLoop();
+}
+
 // Jump function
 function jump() {
-    if (!isGameOver) {
+    if (isGameOver && !hasWon) {
+        restartGame(); // Allow replay only if the player has lost
+    } else if (!isGameOver) {
         birdVelocity = -8;
     }
 }
@@ -109,6 +132,7 @@ function updateScore() {
 
 // Show winning screen
 function showWinningScreen() {
+    hasWon = true; // Mark the player as having won
     winningScreen.classList.remove("hidden");
     winningScreen.classList.add("show");
 
