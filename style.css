@@ -73,38 +73,100 @@ body {
     color: #333;
 }
 
-/* Game over and win messages */
-.game-message {
+/* Winning Screen */
+#winning-screen {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 24px;
-    font-weight: bold;
-    color: red;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb); /* Gradient background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 2s ease-in-out;
+}
+
+#winning-screen.hidden {
     display: none;
-    animation: fadeInOut 3s ease-in-out; /* Fade-in and fade-out effect */
 }
 
-.win-message {
-    animation: scaleEffect 3s ease-in-out infinite; /* Scaling effect */
+#winning-screen.show {
+    opacity: 1;
+    pointer-events: all;
 }
 
-/* Animations */
-@keyframes fadeInOut {
+#celebration-message {
+    font-size: 36px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    animation: bounce 2s infinite;
+}
+
+/* Confetti Animation */
+#confetti {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #ff6f61;
+    border-radius: 50%;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(100vh);
+    }
+}
+
+/* Flower Animation */
+#flowers {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.flower {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: url('flower.png') no-repeat center/contain;
+    animation: float 5s infinite alternate;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    100% {
+        transform: translateY(-50px) rotate(360deg);
+    }
+}
+
+/* Celebration Message Animation */
+@keyframes bounce {
     0%, 100% {
-        opacity: 0;
+        transform: translateY(0);
     }
     50% {
-        opacity: 1;
-    }
-}
-
-@keyframes scaleEffect {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.2);
+        transform: translateY(-20px);
     }
 }
