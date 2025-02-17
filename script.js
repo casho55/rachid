@@ -2,8 +2,9 @@
 const bird = document.getElementById("bird");
 const gameContainer = document.getElementById("game-container");
 const scoreDisplay = document.getElementById("score");
+const winningScreen = document.getElementById("winning-screen");
 
-let birdY = gameContainer.offsetHeight / 2; // Start in the middle of the screen
+let birdY = gameContainer.offsetHeight / 2;
 let birdVelocity = 0;
 let gravity = 0.5;
 let isGameOver = false;
@@ -15,50 +16,16 @@ let pipeGap = 150;
 let pipeWidth = 50;
 let pipeVelocity = 2;
 
-// Create game message elements
-const gameOverMessage = document.createElement("div");
-gameOverMessage.classList.add("game-message");
-
-const winMessage = document.createElement("div");
-winMessage.classList.add("game-message", "win-message");
-winMessage.textContent = "Bhbk Ktir ya 3mre";
-
-gameContainer.appendChild(gameOverMessage);
-gameContainer.appendChild(winMessage);
-
-// Alternate loss messages
-let lossMessageIndex = 0;
-const lossMessages = ["Bekrahk", "Trekni"];
-
-// Restart game function
-function restartGame() {
-    birdY = gameContainer.offsetHeight / 2;
-    birdVelocity = 0;
-    score = 0;
-    scoreDisplay.textContent = `Score: ${score}`;
-    pipes.forEach((pipe) => {
-        gameContainer.removeChild(pipe.top);
-        gameContainer.removeChild(pipe.bottom);
-    });
-    pipes = [];
-    isGameOver = false;
-    gameOverMessage.style.display = "none";
-    winMessage.style.display = "none";
-    gameLoop();
-}
-
 // Jump function
 function jump() {
-    if (isGameOver) {
-        restartGame();
-    } else {
+    if (!isGameOver) {
         birdVelocity = -8;
     }
 }
 
 // Add touch event for mobile
 document.addEventListener("keydown", jump);
-document.addEventListener("touchstart", jump); // Touch support for mobile
+document.addEventListener("touchstart", jump);
 
 // Create a new pipe
 function createPipe() {
@@ -140,25 +107,41 @@ function updateScore() {
     });
 }
 
+// Show winning screen
+function showWinningScreen() {
+    winningScreen.classList.remove("hidden");
+    winningScreen.classList.add("show");
+
+    // Add confetti
+    for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti-piece");
+        confetti.style.left = `${Math.random() * 100}%`;
+        confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 50%)`;
+        document.getElementById("confetti").appendChild(confetti);
+    }
+
+    // Add flowers
+    for (let i = 0; i < 10; i++) {
+        const flower = document.createElement("div");
+        flower.classList.add("flower");
+        flower.style.left = `${Math.random() * 100}%`;
+        flower.style.top = `${Math.random() * 100}%`;
+        flower.style.animationDuration = `${Math.random() * 5 + 3}s`;
+        document.getElementById("flowers").appendChild(flower);
+    }
+}
+
 // Game loop
 function gameLoop() {
     if (isGameOver) {
-        // Alternate loss messages
-        gameOverMessage.textContent = lossMessages[lossMessageIndex];
-        lossMessageIndex = (lossMessageIndex + 1) % lossMessages.length; // Cycle through messages
-        gameOverMessage.style.display = "block"; // Show game over message
         return;
     }
 
     if (score >= 5) { // Winning score is now 5
-        winMessage.style.display = "block"; // Show win message
         isGameOver = true;
-
-        // Hide the win message after 30 seconds
-        setTimeout(() => {
-            winMessage.style.display = "none";
-            restartGame(); // Restart the game automatically
-        }, 30000); // 30 seconds
+        showWinningScreen();
         return;
     }
 
