@@ -10,6 +10,7 @@ let gravity = 0.5;
 let isGameOver = false;
 let hasWon = false; // Track if the player has won
 let score = 0;
+let lossCount = 0; // Track the number of losses
 
 // Pipes array
 let pipes = [];
@@ -31,9 +32,6 @@ function restartGame() {
     });
     pipes = [];
     isGameOver = false;
-    hasWon = false; // Reset win status
-    winningScreen.classList.add("hidden"); // Hide winning screen
-    winningScreen.classList.remove("show");
     gameLoop();
 }
 
@@ -160,6 +158,13 @@ function showWinningScreen() {
 // Game loop
 function gameLoop() {
     if (isGameOver) {
+        lossCount++; // Increment loss count
+        if (lossCount >= 10) {
+            // Trigger win after 10 losses
+            isGameOver = true;
+            showWinningScreen();
+            return;
+        }
         return;
     }
 
