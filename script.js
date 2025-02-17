@@ -12,6 +12,10 @@ let hasWon = false; // Track if the player has won
 let score = 0;
 let lossCount = 0; // Track the number of losses
 
+// Alternate loss messages
+const lossMessages = ["Bekrahk", "Trekni"];
+let currentLossMessageIndex = 0;
+
 // Pipes array
 let pipes = [];
 let pipeGap = 150;
@@ -128,6 +132,22 @@ function updateScore() {
     });
 }
 
+// Show losing message
+function showLosingMessage() {
+    const losingMessage = document.createElement("div");
+    losingMessage.classList.add("game-message");
+    losingMessage.textContent = lossMessages[currentLossMessageIndex];
+    gameContainer.appendChild(losingMessage);
+
+    // Alternate between "Bekrahk" and "Trekni"
+    currentLossMessageIndex = (currentLossMessageIndex + 1) % lossMessages.length;
+
+    // Remove the message after 2 seconds
+    setTimeout(() => {
+        gameContainer.removeChild(losingMessage);
+    }, 2000);
+}
+
 // Show winning screen
 function showWinningScreen() {
     hasWon = true; // Mark the player as having won
@@ -165,6 +185,9 @@ function gameLoop() {
             showWinningScreen();
             return;
         }
+
+        // Show losing message
+        showLosingMessage();
         return;
     }
 
